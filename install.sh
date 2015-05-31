@@ -33,7 +33,7 @@ brew install brew-cask
 
 echo ""
 echo "Now install default day to day applications"
-brew cask install google-chrome dropbox google-drive sublime-text evernote flux iterm2 skype spotify istat-menus vlc
+brew cask install java atom keka google-chrome dropbox google-drive sublime-text evernote flux iterm2 skype spotify istat-menus vlc
 
 echo ""
 echo "############################ WARNING ############################"
@@ -47,6 +47,33 @@ curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | 
 
 echo ""
 echo "Now install specific dev tools"
+
+###############################################################################
+# Git & Github Specifics
+###############################################################################
+
+echo ""
+echo "Git and Github settings"
+echo "What's your email?"
+  read EMAIL
+ssh-keygen -t rsa -C $EMAIL
+
+#copy ssh key to github.com
+cat ~/.ssh/id_rsa.pub
+
+#test connection
+ssh -T git@github.com
+
+echo "What's your Name?"
+  read USER_NAME
+#set git config values
+git config --global user.name $USER_NAME &&
+git config --global user.email $EMAIL
+echo "What's your Github username?"
+  read GITHUB_USER_NAME
+git config --global github.user $GITHUB_USER_NAME &&
+git config --global core.editor "atom" &&
+git config --global color.ui true
 
 
 ###############################################################################
@@ -156,7 +183,11 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 echo ""
 echo "Setting a blazingly fast keyboard repeat rate"
-defaults write NSGlobalDomain KeyRepeat -int 0
+defaults write NSGlobalDomain KeyRepeat -int 0.02
+
+echo ""
+echo "Set a shorter Delay until key repeat"
+defaults write NSGlobalDomain InitialKeyRepeat -int 12
 
 echo ""
 echo "Disable auto-correct? (y/n)"
