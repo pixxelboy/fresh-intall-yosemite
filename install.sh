@@ -23,8 +23,17 @@ echo "First install xcode"
 xcode-select --install
 
 echo ""
+echo "Now install specific dev tools"
+echo ""
+echo "Get stable Ruby fisrt"
+\curl -sSL https://get.rvm.io | bash -s stable --ruby
+source ~/.rvm/scripts/rvm
+
+echo ""
 echo "Install Homebrew first"
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+brew install neo4j redis
 
 echo ""
 echo "Now install Cask for Brew"
@@ -33,7 +42,11 @@ brew install brew-cask
 
 echo ""
 echo "Now install default day to day applications"
-brew cask install java atom keka google-chrome dropbox google-drive sublime-text evernote flux iterm2 skype spotify istat-menus vlc
+brew cask install java atom keka google-chrome dropbox 
+brew cask install google-drive sublime-text evernote flux
+brew cask install iterm2 skype spotify vlc
+
+brew cask cleanup && brew update && brew upgrade && brew cleanup --force && brew prune && brew doctor
 
 echo ""
 echo "############################ WARNING ############################"
@@ -45,8 +58,6 @@ echo ""
 echo "Install Oh-My-ZSH now for iterm2"
 curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
 
-echo ""
-echo "Now install specific dev tools"
 
 ###############################################################################
 # Git & Github Specifics
@@ -461,31 +472,8 @@ if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
   hash tmutil &> /dev/null && sudo tmutil disablelocal
 fi
 
-
 ###############################################################################
-# Sublime Text
-###############################################################################
-echo ""
-echo "Do you use Sublime Text 3 as your editor of choice, and is it installed?"
-read -r response
-if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  # Installing from homebrew cask does the following for you!
-  # echo ""
-  # echo "Linking Sublime Text for command line usage as subl"
-  # ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
-
-  echo ""
-  echo "Setting Git to use Sublime Text as default editor"
-  git config --global core.editor "subl -n -w"
-fi
-
-###############################################################################
-# Kill affected applications
+# Reboot
 ###############################################################################
 
-find ~/Library/Application\ Support/Dock -name "*.db" -maxdepth 1 -delete
-for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
-  "Dock" "Finder" "Mail" "Messages" "Safari" "SystemUIServer" \
-  "Terminal" "Transmission"; do
-  killall "${app}" > /dev/null 2>&1
-done
+shutdown -r now "Rebooting Now for changes to be efective!"
